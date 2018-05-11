@@ -1,0 +1,1995 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.20.2 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Buy Low and Sell High Strategy</title>
+    <meta name="author" content="CHEN Yingcai">
+    <meta name="keywords" content="Optimal Stopping, Chain-rule, Simulation of SDE">
+
+    <link rel="icon" href="https://chenyingcai.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="Supervisor: René AïDAccomplished At: University Paris Dauphine
+It is essential to pursuit high profit for all the participants in the market. Especially
+in the stock market, amount of investors and analysts comes up with a lots of strate-
+gies and models, one of which is the Buy-low Sell-high strategies.
+
+">
+    <meta property="og:description" content="Supervisor: René AïDAccomplished At: University Paris Dauphine
+It is essential to pursuit high profit for all the participants in the market. Especially
+in the stock market, amount of investors and analysts comes up with a lots of strate-
+gies and models, one of which is the Buy-low Sell-high strategies.
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Buy Low and Sell High Strategy">
+    <meta property="og:url" content="/2018/04/buy-low-and-sell-high-strategy/">
+    <meta property="og:site_name" content="Welcome to CHEN&#39;s Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Welcome to CHEN&#39;s Blog">
+    <meta name="twitter:description" content="Supervisor: René AïDAccomplished At: University Paris Dauphine
+It is essential to pursuit high profit for all the participants in the market. Especially
+in the stock market, amount of investors and analysts comes up with a lots of strate-
+gies and models, one of which is the Buy-low Sell-high strategies.
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/e6a6a2f52f93565733e125f082bc4f91?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://chenyingcai.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://chenyingcai.github.io/">Welcome to CHEN&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://chenyingcai.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/e6a6a2f52f93565733e125f082bc4f91?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://chenyingcai.github.io/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/e6a6a2f52f93565733e125f082bc4f91?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">CHEN Yingcai</h4>
+        
+          <h5 class="sidebar-profile-bio">I&rsquo;m searching a <strong>JOB</strong>! Check <a href="https://chenyingcai.github.io/resume/">My Resume</a></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/chenyingcai" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/resume">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-address-book"></i>
+      
+      <span class="sidebar-button-desc">My Resume</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://chenyingcai.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Buy Low and Sell High Strategy
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-04-18T00:00:00Z">
+        
+  April 18, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://chenyingcai.github.io/categories/stochastic-process">Stochastic Process</a>, 
+    
+      <a class="category-link" href="https://chenyingcai.github.io/categories/reserch-paper">Reserch Paper</a>
+    
+  
+
+  </div>
+
+  
+      <script type="text/javascript" async
+  src="https://chenyingcai.github.io/js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+  
+  
+      <script type="text/javascript" src="https://chenyingcai.github.io/js/bibtexjs.js"></script>
+  
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><h7><center><strong>Supervisor: René AïD<br/>Accomplished At: University Paris Dauphine</strong></center></h7>
+It is essential to pursuit high profit for all the participants in the market. Especially
+in the stock market, amount of investors and analysts comes up with a lots of strate-
+gies and models, one of which is the Buy-low Sell-high strategies.</p>
+
+<p></p>
+
+<p>In fact, Buy-low Sell-high strategies could be analyzed under the framework which is called optimal
+stopping and free boundary problem. Also, the theory of optimal stopping problem
+is used in economy and finance and provides an analytic methodology for produc-
+tion decisions, management planning and investment strategies, in particular, for the
+evaluation of option price. Besides, the simulation of Stochastic Differential Equa-
+tion(SDE) is a widely discussed issue and there are a lot of paper studying it and
+proposing numerous approaches and discussion. Euler-Maruyama Method is one of
+the most popular approach for SDE simulation. The paper is to discuss the optimal
+stopping problem and apply it to the Buy-Low and Sell-High strategies as well as
+simulate the trajectory of asset price and value criterion on Matlab.</p>
+
+<p><strong>Keywords:</strong> Optimal stopping, Free Boundary Problem, Buy-Low and Sell high, Euler-Maruyama Method, Stochastic Chain-rule, Simulation of Stochastic Differential Equation, Matlab.</p>
+
+<h1 id="table-of-contents">Table of Contents</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#optimal-stopping-problem">Optimal Stopping Problem</a>
+<ul>
+<li><a href="#smooth-fit-principle">Smooth-fit principle</a></li>
+</ul></li>
+<li><a href="#buy-low-and-sell-high-strategies">Buy low and sell high strategies</a>
+<ul>
+<li><a href="#case-1-mathcal-s-2-emptyset">Case 1 ($\mathcal{S}_2=\emptyset $)</a></li>
+<li><a href="#case-2-left-mathcal-s-2-0-x-2-right">Case 2 ($\left.\mathcal{S}_2= (0, x_2^*\right.]$)</a></li>
+</ul></li>
+<li><a href="#simulation">Simulation</a>
+<ul>
+<li><a href="#simulation-of-geometric-brownian-motion-gbm">Simulation of Geometric Brownian Motion(GBM)</a>
+<ul>
+<li><a href="#discretized-brownian-path">Discretized Brownian path</a></li>
+<li><a href="#euler-maruyama-scheme-em">Euler-Maruyama Scheme(EM)</a></li>
+<li><a href="#value-function">Value function</a></li>
+</ul></li>
+<li><a href="#simulation-of-cir-process">Simulation of CIR Process</a>
+<ul>
+<li><a href="#value-function-of-cir-process">Value function of CIR process</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>Stochastic optimal control problem involving sequential stopping decision have at-
+tracted considerable interest. Actually, the theory of optimal stopping is widely ap-
+plied as a flexible asset management by investment firms who would like to evalu-
+ate the optimal investment decisions since the market development is always unex-
+pected. Along with the assumption that a stock price follows a geometric Brownian
+motion(GBM), Shiryaev et al. (2008) and Dai et al. (2010a) bring up a conclusion
+that it is optimal to either sell the stock immediately or hold it all the horizon. Other
+GBM-type price model has been studied by Higham (2001) and Guo and Zhang (2005)
+and it is applied in optimal selling decision. Besides,a GBM-type related model have
+studied by Dai et al. (2010b) in which the asset price is given by a GBM with drift
+switching between two possible values that are not directly observed by the investor.
+We could see that GBM-type diffusion of asset price do not allow for optimal buying
+and selling strategies that have a sequential nature. Other than the GBM-type model,
+Zhang and Zhang (2008) and Song et al. (2009) have modeled the underlying asset
+price by means of a mean-reverting Ornstein-Uhlenbeck process and considering a
+proportional transaction costs. Zervos et al. (2013) investigate the optimal switching
+problem with fixed transaction costs under a class of time-homogeneous diffusions,
+including the GBM, mean-reverting CEV underlying, and other models. Besides,
+there are some articles that provides a typical solution approach for optimal stopping
+problems driven by diffusion and focus on the analytical and numerical studies of
+the associated free boundary problems (See Bensoussan and Lions (2011) , Øksendal
+(1998) and Sun (1992)). Also, Pham (2009) provides a very nice overview of the
+viscosity solution of the corresponding Hamilton-Jacobi-Bellman(HJB) equations.</p>
+
+<p>In this paper, we will firstly make a brief overview of the optimal stopping and free
+boundary problem. Then, we will focus on the case where an investor aims at max-
+imizing the expected discounted cash-flow which can be generated by sequentially
+buying and selling one share of a given asset at fixed transaction cost. Finally, we will
+simulate the trajectory of SDE and the corresponding maximization value function.</p>
+
+<h1 id="optimal-stopping-problem">Optimal Stopping Problem</h1>
+
+<p>In this section, we will make a brief introduction to optimal stopping problem
+in one-dimensional space. Firstly, we consider a one-dimensional Itô
+diffusion X on $\mathbb{R}^n$ that represent an underlying asset price</p>
+
+<p>\begin{equation}
+d X_t = b\left( X_t \right) d t + \sigma \left( X_t \right) d W_t
+\label{eq:Total_1}
+\end{equation}</p>
+
+<p>where W is a standard d-dimensional Brownian Motion and the coefficients $b (X_t)$ and $\sigma (X_t)$ satisfy the Lipshitz
+condition. And we also give an initial condition : at time $t = 0$, $X_0=x&gt;0$. Given two continuous functions $f$, $g$ : $\mathbb{R}^n\to \mathbb{R}$, satisfying a linear growth condition, and a positive discount factor $\beta &gt;0$, we consider the infinite horizon optimal stopping problem</p>
+
+<p>\begin{equation}
+\nu (t, x) = \underset{\tau \in \mathcal{T}}{\sup } \mathbb{E} \left[\int _0^{\tau } e^{-\beta  t} f\left(X_t^x\right) d t + e^{-\beta t} g\left(X _{\tau }^x\right) \right], x\in  \mathbb{R}^n
+\label{eq:Total_2}
+\end{equation}</p>
+
+<p>The $\mathcal{T}$ denotes the set of denotes the set of stopping times valued in $[0,\infty )$ , and the convention is that $\lim _{\tau \to \infty } \left( e ^{-\beta \tau } \right) = 0 $. Besides, we define the folowing  Assumption
+<blockquote>
+  <dt>Assumption <a name="Assumption1">1</a></dt>
+  <dd>
+  $b, \sigma :(0, \infty )\to  \mathbb{R}$ are Borel-measurable and such that
+  $$\sigma ^2(x)&gt;0, \forall x&gt;0 \text{and} \int _{\underline{a}}^{\bar{b}} \frac{1+|b(s)|}{\sigma ^2(s)} d s &lt; \infty , \forall  0 &lt; \underline{a} &lt; \bar{b} &lt; \infty$$
+   </dd>
+</blockquote></p>
+
+<p>The above also implies the scale function $p$
+\begin{equation}
+p(x) = \int _1^x \exp (-2 \int _1^s \frac{b(u)}{\sigma ^2(u)}\text{  }du) ds , \text{for} \text{all} x&gt;0
+\label{eq:Total_3}
+\end{equation}
+And we also assume that the solution of $\textit{Eq}\eqref{eq:Total_1}$ is nonexplosive. So far, we could make the Stochastic Differential Equation in $\textit{Eq}\eqref{eq:Total_1}$ having sufficient analytic conditions and weak solution $ (\Omega , \mathcal{F}, \mathbb{P}_x, \mathcal{W}, X) $ that is unique in the sense of probability law up to a possible explosion time and the hitting time of the boundary {0}, {$\infty $} of the interval $(0, \infty )$ is infinite with probability 1. This analytic condition is introduced by <span hidden>\citet{karatzas2012brownian}&lt;\span&gt;Karatzas and Shreve (2012) and in section 5.5 they have a discussion of a one-dimensional case. Then, we relate the $\textit{Eq}\eqref{eq:Total_1}$ to a Partial Differential Equation(PDE) as following
+\begin{equation}
+\min  {\beta  \nu  - \mathcal{L}\nu  - f, \nu  - g} = 0
+\label{eq:Total_4}
+\end{equation}
+where $\mathcal{L}$ is the second-order operator associated to the diffusion X defined in $\textit{Eq}\eqref{eq:Total_1}$ and we have</p>
+
+<p>\begin{equation}
+\mathcal{L} \nu  \text{:=} b(x) D_x \nu  + \frac{1}{2} \sigma ^2(x) D _{\text{xx}}^2 \nu
+\label{eq:Total_5}
+\end{equation}</p>
+
+<p>In fact, in order to obtain the above PDE, we need to prove that $\nu$ is continuous on a domain since the continuity is the necessary condition for differentiation. We have assumed that the coefficients $b, \sigma$ satisfies the Lipshitz condition and then we could obtain that
+\begin{equation}
+\exists  \beta _0, \mathbb{E}(\underset{0\leq  u\leq  t}{\sup } \left|X_u^x-X_u^y\right|) \leq  e^{\beta _0t}|x-y|
+\label{eq:Total_6}
+\end{equation}
+Similarly, we could assume a larger $\beta $ such that $\beta &gt;\beta _0$ and the inequity above changed into.
+\begin{equation}
+\mathbb{E}(\underset{0\leq  u\leq  t}{\sup }\left|X_u^x-X_u^y\right|)\leq  e^{\text{$\beta $u}}|x-y|\overset{u\to  t}{\Rightarrow }\mathbb{E}(\underset{0\leq t}{\sup } \left|X_t^x-X_t^y\right|)\leq  e^{\text{$\beta $t}}|x-y|
+\label{eq:Total_7}
+\end{equation}
+Furthermore, with the continuity and linear growth of $f, g$, we could deduce the following inequity
+\begin{equation}
+\mathbb{E}(\underset{0\leq  t}{\sup } \left|f(X_t^x)-f(X_t^y)\right|)\leq  e^{\text{$\beta $t}}|x-y| \text{and}\mathbb{E}(\underset{0\leq  t}{\sup } \left|g(X_t^x)-g(X_t^y)\right|)\leq  e^{\text{$\beta $t}}|x-y|
+\label{eq:Total_8}
+\end{equation}
+Combining $\textit{Eq}\eqref{eq:Total_2}$, $\textit{Eq}\eqref{eq:Total_7}$ and $\textit{Eq}\eqref{eq:Total_8}$, we deduce the following Lemma. There exists positive constants $\beta _0$, C such that for all $\beta &gt;\beta _0$, x,y $\in $ $\mathbb{R}^n$</p>
+
+<p>$$|\nu (x)-\nu (y)|\leq C |x-y|$$</p>
+
+<h2 id="smooth-fit-principle">Smooth-fit principle</h2>
+
+<p>We firstly introduce two sets in respect of the second term on the left hand side of $\textit{Eq}\eqref{eq:Total_4}$. The open set
+$$\pmb{\mathcal{C}}\text{:=} {x\in  \mathbb{R}: \nu (x)&gt;g(x)}$$ and its complement set
+\begin{equation}
+\pmb{\mathcal{S}}\text{:=}{x\in \mathbb{R}: \nu (x)=g(x)}
+\label{eq:Total_9}
+\end{equation}
+Actually, the complement set $\pmb{\mathcal{S}}$ in $\textit{Eq}\eqref{eq:Total_9}$ is called stopping region since $g(x)$ represent the profit at time $\tau$ and it is optimal to quit the market if $\nu  = g$. On the other hand, the open set $\pmb{\mathcal{C}}$ is called continuation region. In review of our HJB in $\textit{Eq}\eqref{eq:Total_4}$, we could find that if $\nu &gt;g$, the first term on the left hand side of $\textit{Eq}\eqref{eq:Total_4}$ is deduced to $\beta  \nu  - \mathcal{L}\nu - f=0$, which means that it&rsquo;s optimal to stay in the market and let the diffusion continue. In the this section, we are interested in the stopping region and through observing the $\textit{Eq}\eqref{eq:Total_4}$, we could easily find that $\beta  \nu  - \mathcal{L}\nu  - f\geq  0$ if $\nu  = g$ and by replacing $\nu  = g$ into $\beta $ $\nu $ - $\mathcal{L}\nu $ - f$\geq $ 0, we define a stopping region $\pmb{\mathcal{D}}$ on a open set $\mathcal{O}\subset \mathcal{S}$
+$$\pmb{\mathcal{D}}\text{:=}{x\in \mathcal{O}: \beta  g(x) - \mathcal{L} g(x) -f(x)\geq  0}$$.
+Given a boundary $\partial C$ (also called free boundary) of set $\pmb{\mathcal{C}}$ is included in the stopping region $\pmb{\mathcal{D}}$ and we have $\nu  = g \text{ on }\pmb{\partial C}$
+This general classical result is proved by <span hidden>\citet{shiryaevn}&lt;\span&gt;Shiryaev, <span hidden>\citet{jacka1993local}&lt;\span&gt;Jacka et al. (1993).
+<dl>
+  <dt>Proposition <a name="Proposition1">1</a></dt>
+  <blockquote>
+Assume that X is one-dimensional, $\sigma $ is uniformly ellipic, and g is
+$\pmb{\mathcal{C}}^1$ on $\pmb{\mathcal{S}}$. Then, $\nu $ is
+$\pmb{\mathcal{C}}^1$ on $\partial C$, i.e., for $\bar{x}\in \partial C$,
+$\nu ^\prime (\bar{x})=g ^\prime (\bar{x})$.
+  </blockquote>
+</dl></p>
+
+<h1 id="buy-low-and-sell-high-strategies">Buy low and sell high strategies</h1>
+
+<p>The buy low and sell high strategies could be considered as a specific optimal
+stopping problem and involves in optimal switching. In this section, we would
+like to introduce a typical buy low and sell high analytic model in which the
+investors aim at maximizing the expected discounted cash-flow through buying and
+selling one share of the underlying asset. We take the same one-dimensional
+Itô process we have discussed above as the underlying asset price
+evaluation. Considering the following performance criterion</p>
+
+<p>\begin{equation}
+J _{y,x}(Y) = \lim _{n\to \infty } \sum _{j = 1}^n \mathbb{E} _x[e^{-\beta \tau _j} (H_s(X _{\tau _j}) \mathbf{1} _{{\Delta Y _{\tau _j} = -1}} - H_b(X _{\tau _j}) \mathbf{1} _{{\Delta Y _{\tau _j} = 1}}) \mathbf{1} _{{\tau _j &lt; \infty }} ]
+\label{eq:Total_10}
+\end{equation}</p>
+
+<p>where</p>
+
+<p>\begin{equation}
+H_s(x) = x - c_s \text{ and } H_b = x + c_b, \text{ for all } x&gt;0
+\label{eq:Total_11}
+\end{equation}</p>
+
+<p>We take $c_s $ $(c_b )$ as the positive constant cost of buying (selling) one share underlying asset. Then, we define the problem&rsquo;s value function $\nu $ by</p>
+
+<p>\begin{equation}
+\nu (y, x) = \underset{Y\in \mathcal{A} _{y,x}}{\sup } J _{y,x} (Y), \text{ for } y\in {0, 1} \text{ and } x &gt; 0
+\label{eq:Total_12}
+\end{equation}</p>
+
+<p>In this model, we don&rsquo;t take into account the running profit function and $f(x)=0$. Actually, in accordance to the framework in previous section,
+we could also redefine $\textit{Eq}\eqref{eq:Total_10}$ and $\textit{Eq}\eqref{eq:Total_11}$ by setting</p>
+
+<p>\begin{equation}
+g_1(x) = x - c_s \text{ and } g_2= -x - c_b
+\label{eq:Total_13}
+\end{equation}</p>
+
+<p>Then we could reconstruct the $\textit{Eq}\eqref{eq:Total_12}$ by</p>
+
+<p>\begin{equation}
+\nu _1 = \underset{\tau \in \mathcal{T}}{\sup } \mathbb{E}\left[e^{-\beta \tau
+}g_1\left(X _{\tau }^x\right)\right] \text{ and } \nu _2 = \underset{\tau\in
+\mathcal{T}}{\sup } \mathbb{E}\left[e^{-\beta \tau }g_2 \left( X _{\tau }^x\right) \right]
+\label{eq:Total_14}
+\end{equation}</p>
+
+<p>We shall appeal to the dynamic programming principle under the following form</p>
+
+<p>\begin{equation}
+\nu (x,i) = \underset{\tau \in \mathcal{T}}{\sup } \mathbb{E}\left[ e^{-\beta  \tau }g_i \left( X _{\tau }^x \right) \mathbf{1} _{\left\{ \tau &lt;\theta \right\}} +e^{-\beta  \tau }\nu \left( X _{\tau }^x,j \right) \mathbf{1} _{\left\{ \tau &lt;\theta \right\} }+e^{-\beta  \theta }\nu \left( X _{\theta }^x, i\right) \right]
+\label{eq:Total_15}
+\end{equation}</p>
+
+<p>This means that at any time $\theta \in \mathcal{T}$, we might decide to switch the regime or decide to continue. So our optimal stopping problem will be transformed to
+\begin{equation}
+\min {\beta \nu _1-\mathcal{L} \nu _1, \nu _1-(v_2+g_1)}=0 \text{ and } \min {\beta \nu _2-\mathcal{L} \nu _2, \nu_2-(\nu _1+g_2)}=0
+\label{eq:Total_16}
+\end{equation}
+where the operator defined by $\textit{Eq}\eqref{eq:Total_5}$ and the stopping region is
+$$\mathcal{S}_i\text{:=}{x&gt;0:\nu _i (x) = \nu _j (x) + g_i(x)}, i, j=1, 2, i\neq  j$$
+The continuation region is
+$$\mathcal{C}_i\text{:=}{x&gt;0:\nu _i (x) &gt; \nu _j (x) + g_i(x)}, i, j=1, 2, i\neq  j$$
+<dl>
+  <dt>Lemma <a name="Lemma1">1</a></dt>
+  <blockquote>
+Assume that $\sigma $ is uniformly elliptic. Then, we have
+\begin{equation}
+\mathcal{S}_i\subset Q_i\text{:=}{x\in \mathcal{C}_j:\beta  g_i(x)- \mathcal{L} g_i(x) \geq \text{   }0}, i = 1, 2, i\neq  j
+\label{eq:Total_17}
+\end{equation}
+</blockquote>
+</dl></p>
+
+<dl>
+  <dt>Proof.</dt>
+  <blockquote>
+Let $x\in  S_i$ and set $\varphi _i = \nu _j + g_i$, x is a minimum of $\nu
+_i-\varphi _i$ with $\nu _i=\varphi _i$. Since x lies in the open set
+$\mathcal{C}_j$ where $\nu _j$ is smooth under the condition that $\sigma $
+is uniformly elliptic, we have $\varphi _j$ is $\mathcal{C}^2$ in a
+neighborhood of x
+\begin{equation}
+\beta  \varphi _i(x) - \mathcal{L} \varphi _i(x) \geq  0 \Longrightarrow  \beta (v_j+g_i) - \mathcal{L} (v_j+g_i) \geq  0 \Longrightarrow (\beta \nu _j- \mathcal{L} \nu _j) + (\beta  g_i-\mathcal{L} g_i) \geq  0
+\label{eq:Total_18}
+\end{equation}
+Recall that for $x\in \mathcal{C}_i$, we have
+$$\beta  \nu _j(x) - \mathcal{L} \nu _j =0$$
+by substituting into $\textit{Eq}\eqref{eq:Total_18}$, we obtain
+$$\beta  g_i - \mathcal{L} g_i \geq \text{   }0$$
+we finish the proof
+</blockquote>
+</dl>
+
+<p>In this section, another important issue is the solution of the ODE. With the
+assumption that the solution of $\textit{Eq}\eqref{eq:Total_1}$ is nonexplosive and the
+coefficients are Borel-measurable, there exists a pair of $C^1$ functions
+$\varphi , \psi  : (0, \infty )\to  (0,\infty )$ with absolutely continuous
+first derivatives such that
+$$0&lt;\varphi (x)\text{  }\text{ and } \varphi ^\prime (x) &lt; 0 \text{ for all } x&gt;0$$
+$$0&lt;\psi (x)\text{  }\text{ and } \psi ^\prime (x) &gt; 0 \text{ for all } x&gt;0$$
+$$\lim _{x\to  0}  \varphi (x) = \lim _{x\to  \infty } \psi (x) = \infty$$
+$$\varphi (x) \psi ^\prime (x) - \varphi ^\prime (x) \psi (x) = C p ^\prime (x) \text{ for all } x&gt;0$$
+where $C = \varphi (1) \psi ^\prime (1) - \varphi ^\prime (1) \psi (1)$ and $p$ is the scale function defined by $\textit{Eq}\eqref{eq:Total_3}$. We
+also assume a $C^1$ function $g: \mathbb{R}\to  \mathbb{R}$ and we relate
+the $\textit{Eq}\eqref{eq:Total_1}$ and function $g$ to the following ODE
+\begin{equation}
+\beta  g(x) - \mathcal{L} g(x) =0
+\label{eq:Total_19}
+\end{equation}
+where the operator defined by $\textit{Eq}\eqref{eq:Total_5}$. Then, we obtain that $\varphi , \psi$ are the classical solution of the ODE in $\textit{Eq}\eqref{eq:Total_19}$. Furthermore, if
+the function $g$ satisfies the following condition
+\begin{equation}
+\lim _{x\to  0}  \frac{g(x)}{\varphi (x)} = \lim _{x\to  \infty }  \frac{g(x)}{\psi (x)} =0 \text{ and } \mathbb{E}_x[\int _0^{\infty } e^{-\beta t} \left|\beta  g(X_t)-\mathcal{L} g(X_t)\right| d t]&lt;\infty
+\label{eq:Total_20}
+\end{equation}
+Then, the function $g$ also admits the following analytic representation
+$$g(x)\text{  }=a \psi (x) + b \varphi (x)$$
+where
+\begin{equation}
+a =\int _x^{\infty } \Phi (s) (\beta  g(s) - \mathcal{L} g(s) ) d s
+\label{eq:Total_21}
+\end{equation}
+\begin{equation}
+b = \int _0^x \Psi (s) (\beta  g(s) - \mathcal{L} g(s) ) d s
+\label{eq:Total_22}
+\end{equation}
+The function $\Phi , \Psi$ are defined by
+$$\Phi (x) = \frac{2 \varphi (x)}{C \sigma ^2(x) p ^\prime (x)}\text{  }\text{ and } \Psi (x) = \frac{2 \psi (x)}{C \sigma ^2(x) p ^\prime (x)}$$
+\begin{equation}
+(\frac{g}{\varphi }) ^\prime (x) = \frac{C p ^\prime (x)}{\varphi ^2(x)} a\text{ and } (\frac{g}{\psi }) ^\prime (x) =- \frac{C p ^\prime (x)}{\psi ^2(x)}b
+\label{eq:Total_23}
+\end{equation}
+Given any ($\mathcal{F}_t$)-stopping time $\tau$ , Dynkin&rsquo;s formula</p>
+
+<p>$$\mathbb{E}_x[e^{-\beta  \tau }g(X _{\tau }) \mathbf{1} _{{\tau &lt;\infty }}] = g(x) - \mathbb{E}_x[\int _0^{\tau } e^{-\beta
+ t} (\beta  g(s) - \mathcal{L} g(s) ) d t]$$</p>
+
+<p>holds, and
+$$\lim _{n\to  \infty }  \mathbb{E}_x[e^{-\beta \tau _n} \left|g(X _{\tau _n})\right|\mathbf{1} _{{\tau _n&lt;\infty }}]$$
+The representations that we list above could be found in <span hidden>\citet{zervos2013buy}&lt;\span&gt;Zervos et al. (2013) and some of them are referred to several articles like chapter II
+of <span hidden>\citet{borodin2003handbook}&lt;\span&gt;Borodin and Salminen (2003). Now we assume further that our underlying price is such that
+$$\lim _{x\to  \infty }  \frac{x}{\psi (x)} = 0 \text{ and } \mathbb{E}_x[\int _0^{\infty } e^{-\beta  t} (\beta  X_t- \mathcal{L} X_t) d t]&lt; \infty$$
+In view of Lemma~\vref{lm:Total_1}<a href="#Lemma1">Lemma 1</a> and $\textit{Eq}\eqref{eq:Total_13}$, we have
+$$Q_1={x\in C_2: \beta  g_1(x)- \mathcal{L} g_1(x) \geq 0}$$
+$$Q_2={x\in C_1: \beta  g_2(x)- \mathcal{L} g_2(x) \geq 0}$$
+We further assume two set $\hat{Q}_1, \hat{Q}_2$ such that for $x&gt;0$,
+$$\hat{Q}_1 = {x&gt;0: \beta  g_1(x)- \mathcal{L} g_1(x) \geq  0}$$
+\begin{equation}
+\hat{Q}_2 = {x&gt;0: \beta  g_2(x)- \mathcal{L} g_2(x) \geq  0}
+\label{eq:Total_24}
+\end{equation}
+we have $Q_1\subset \hat{Q}_1, Q_2\subset \hat{Q}_2$. By substituting $\textit{Eq}\eqref{eq:Total_13}$ into two inequities above, we have
+\begin{equation}
+\hat{Q}_1 = {x&gt;0: x - \frac{b(x)}{\beta }\geq  c_s}
+\label{eq:Total_25}
+\end{equation}
+\begin{equation}
+\hat{Q}_2 = {x&gt;0: \frac{b(x)}{\beta } - x \geq  c_b}
+\label{eq:Total_26}
+\end{equation}</p>
+
+<blockquote>
+  <dt>Assumption <a name="Assumption2">2</a></dt>
+  <dd>
+we assume that our data satisfies that $c_s, c_b>0$, and
+$ 0\leq x _b < x _s $ such that 
+$$\tilde{\mathcal{L}} g(x) \text{:=} \beta  g(x) + \mathcal{L} g(x)$$
+
+\begin{equation}
+\tilde{\mathcal{L}}g_1(x) \Bigl\{
+\begin{matrix}
+<0 & x < x_s \\ 
+>0 & x \geq  x_s
+\end{matrix}
+\text{ and }
+\tilde{\mathcal{L}}g _2(x)\Bigl\{
+\begin{matrix}
+<0 & x < x _b\text{ if }x _b > 0\\ 
+>0 & x \geq  x _b
+\end{matrix}
+\label{eq:Total_27}
+\end{equation}
+
+</dd>
+</blockquote>
+
+<p>The above assumption, in fact, implies that
+\begin{equation}
+\left.\left.\hat{Q}_1 = [x_s, \infty \right.)\text{  }\text{ and } \hat{Q}_2 = [x_b, \infty \right.)
+\label{eq:Total_28}
+\end{equation}
+Now, let&rsquo;s consider two different case. The first one arise when $\mathcal{S}_2=\emptyset $ and it is optimal for investors to sell as soon as the price exceeds a given level $x _1 ^* $ if they hold asset (i.e. we are in regime 1), and never enter the market otherwise (i.e. in regime 2). The second one arise when $\mathcal{S}_2 = (0, x _2^* ]$ and the investors shall sequentially buy asset when the price fall below a given level $x _2 ^* $ while sell asset as soon as possible when the price exceeds $x _1 ^* $.</p>
+
+<h2 id="case-1-mathcal-s-2-emptyset">Case 1 ($\mathcal{S}_2=\emptyset $)</h2>
+
+<p>With the condition $\mathcal{S}_2=\emptyset $ and the complement $\mathcal{C}_2=(0, \infty )$ , let&rsquo;s consider $ \mathcal{S}_1=[x_1^* ,\text{ }\infty ) $ with $ x_1^* \in (0, \infty ) $ and the following function</p>
+
+<p>\begin{equation}
+\begin{matrix}
+\omega _1(x) = \left\{\begin{matrix}
+A \psi(x) &amp; 0&lt;x&lt;x_1^*\\
+g_1(x) &amp; x\geq x_1^*
+\end{matrix}\right.
+\\
+\omega _2(x) = 0\text{ on }\left ( 0, \infty \right )
+\end{matrix}
+\label{eq:Total_29}
+\end{equation}</p>
+
+<p>In particular, we identify that our optimal problem should be the case 1 if and only if our data is such that either $x_b=0$ or</p>
+
+<p>\begin{equation}
+x_b&gt;0 \text{ and }c_b\geq  (x_1^* - c_s)\text{  }\frac{\lim _{x\to  0} \psi (x)}{\psi (x_1^*)}
+\label{eq:Total_30}
+\end{equation}</p>
+
+<p>According to the smooth-fit condition and the continuity of $\omega _1$ at $x_1^*$, we could explicitly computer the boundary point $x_1^* $
+and constant A by
+\begin{equation}
+A \psi (x_1^*) = g_1(x_1^*) \text{ and }A \psi ^{\prime } (x_1^*) = g _1^{\prime } (x_1^*)
+\label{eq:Total_31}
+\end{equation}
+The above system is equivalent to
+\begin{equation}
+A = \frac{g_1(x_1^*)}{\psi (x_1^*)} = \frac{g _1^{\prime } (x_1^*)}{\psi ^{\prime } (x_1^*) }
+\label{eq:Total_32}
+\end{equation}
+With cross-multiplication method, the equivalent above could be
+\begin{equation}
+\begin{matrix}
+0 =g_1(x_1^*) \psi ^{\prime } (x_1^*) - \psi (x_1^*)
+g _1^{\prime } (x_1^*) \newline
+\overset{\text{multiple both side}}{\Longrightarrow} 0 =\frac{1}{\psi
+^2(x_1^*)} g_1(x_1^*) \psi ^{\prime } (x_1^*) - \psi
+(x_1^*) g _1^{\prime } (x_1^*) \newline
+\Longrightarrow (\frac{g_1}{\psi}) ^{\prime } (x_1^*) = 0
+\end{matrix}
+\label{eq:Total_33}
+\end{equation}
+we could check $\textit{Eq}\eqref{eq:Total_33}$ by combining $\textit{Eq}\eqref{eq:Total_23}$ and constructing a identify function $q(x)$ such that $q(x_1^* ) = 0$ with $x_1^* &gt;0$
+\begin{equation}
+q(x) = \int _0^x \Psi (s) (\beta  g_1(s) - \mathcal{L} g_1(s) ) d s
+\label{eq:Total_34}
+\end{equation}
+Now we shall give the proof of the representations listed above with the condition $\mathcal{S}_2 = \emptyset$ and $x&gt;0$
+<dl>
+  <dt>Proof.</dt>
+  <blockquote></p>
+
+<p>Since $\mathcal{S}_2=\emptyset$, it is easy to see that its complement
+$\mathcal{C}_2 = (0, \infty )$ because of initial condition $x&gt;0$.
+Now since we assume our problem data following in assumption, that implies
+$\left.\hat{Q}_1=[x_s, \infty \right.)$. Since $ \mathcal{S}_1 \neq \emptyset \subset \hat{Q}_1 $, we have positive boundary point $x_1^*&gt;0$ such that $\left.x_1^*=\inf \mathcal{S}_1 \in [x_s, \infty \right.)$ and also the complement set $(0, x_i^*)\subset \mathcal{C}_1$. Considering the function
+\begin{equation}
+\begin{matrix}
+\omega _1(x) = \Bigl\{\begin{matrix}
+A \psi(x) &amp; 0 &lt; x &lt; x _1^* \newline
+g_1(x) &amp; x\geq x _1^*
+\end{matrix}\newline
+\omega _2(x) = 0\text{ on }( 0, \infty )
+\end{matrix}
+\label{eq:Total_35}
+\end{equation}
+ we shall check that $\omega _1$ is a solution to
+\begin{equation}
+\min {\beta  \omega _1 - \mathcal{L} \omega _1, \omega _1- ( \omega _2 + g_1)} = 0, \text{ on }(0, \infty )
+\label{eq:Total_36}
+\end{equation}
+For convenience, we discuss the important function $q(x)$ and we will use the property of $q(x)$ later for checking the representations above.
+Combining $\textit{Eq}\eqref{eq:Total_34}$ and the assumption $\textit{Eq}\eqref{eq:Total_27}$, we have</p>
+
+<p>$$q ^{\prime } (x) = \Psi (x) (\beta  g_1(x) - \mathcal{L} g_1(x) )\left\{\begin{matrix}&lt;0 &amp; \text{ if }x &lt; x_s \newline &gt;0 &amp; \text{ if }x &gt; x_s \end{matrix}\right.$$</p>
+
+<p>For the function $\frac{g_1(x)}{\psi (x)}$, combining $\textit{Eq}\eqref{eq:Total_20}$, $\textit{Eq}\eqref{eq:Total_22}$ and $\textit{Eq}\eqref{eq:Total_23}$, we have
+$$\frac{g_1(x)}{\psi (x)} = \frac{x-c_s}{\psi (x)} &gt;0 \text{ for all }x&gt;c_s$$
+\begin{equation}
+\lim _{x\to  \infty }  \frac{g_1(x)}{\psi (x)} = 0
+\label{eq:Total_37}
+\end{equation}
+\begin{equation}
+(\frac{g_1(x)}{\psi (x)} ) ^{\prime } (x) = -\frac{C p ^{\prime } (x)}{\varphi ^2(x)} \int _0^x \Psi (s) (\beta  g(s) - \mathcal{L} g(s) ) d s = -\frac{C p ^{\prime } (x)}{\varphi^2(x)} q(x)
+\label{eq:Total_38}
+\end{equation}
+Since $\textit{Eq}\eqref{eq:Total_37}$ show that $\frac{g_1(x)}{\psi (x)}$ should be 0 when $x\to  \infty$ and it is positive on $(c_s, \infty )$, so it is reasonable that the first derivative $(\frac{g_1(x)}{\psi (x)} ) ^{\prime } $ should be negative with $x\to  \infty$ which also implies \(\lim _{x\to  \infty } q(x)&gt;0\) Observing $\textit{Eq}\eqref{eq:Total_34}$ we could see that $q(0) = 0$. Since the problem is assumed such that $q(x)$ decreasing on $(0, x_s)$, increasing on $(x_s, \infty )$ and $\lim _{x\to  \infty } q(x)&gt;0$, we argue that there exists a unique $x_1^*&gt;0$ satisfying $q(x_1^*)=0$. We prove the identify function in $\textit{Eq}\eqref{eq:Total_34}$. Furthermore, we have
+\begin{equation}
+x_s&lt;x_1^* \text{ and } q(x) = \int _0^x \Psi (s) (\beta  g_1(s) - \mathcal{L} g_1(s) ) d s &lt; 0 \text{ on } (0, x_1^*)
+\label{eq:Total_39}
+\end{equation}
+Combining $\textit{Eq}\eqref{eq:Total_38}$ and $\textit{Eq}\eqref{eq:Total_39}$, we could see that
+\begin{equation}
+(\frac{g_1(x)}{\psi (x)}) ^{\prime } (x) <0 \text{ on }( 0, x _1^* )
+\label{eq:Total_40}
+\end{equation}
+Now we should check $\textit{Eq}\eqref{eq:Total_36}$. Firstly, we check that
+\begin{equation}
+\omega _1(x)-( \omega _2+g_1) (x) = \omega _1(x)-g_1(x)\geq  0, \forall  0 < x < x _1^* 
+\label{eq:Total_41}
+\end{equation}
+i.e.
+$$A \psi (x) - g_1(x) \geq  0 \Longrightarrow , \forall  0 < x < x _1^* $$
+It is equivalent to check $\frac{g_1(x)}{\psi (x)} \leq  A = \frac{g_1( x _1^* ) }{\psi (x _1^* )}$. According to $\textit{Eq}\eqref{eq:Total_40}$, $\textit{Eq}\eqref{eq:Total_41}$ holds on $( 0, x _1^* ) $.
+Then, we shall check the second term of $\textit{Eq}\eqref{eq:Total_36}$,
+\begin{equation}
+\beta  \omega _1 - \mathcal{L} \omega _1 \geq  0, \text{on} (x _1^* , \infty )
+\label{eq:Total_42}
+\end{equation}
+Combining $\textit{Eq}\eqref{eq:Total_35}$, $\textit{Eq}\eqref{eq:Total_42}$ change into $\beta  g_1-\mathcal{L} g_1\geq  0$. Combining $\textit{Eq}\eqref{eq:Total_34}$ , it is equivalent to check
+\begin{equation}
+q ^{\prime } (x) = \Psi (x) (\beta  g_1(x) - \mathcal{L} g_1(x) ) \geq  0 \text{
+on }(x _1^* , \infty )
+\label{eq:Total_43}
+\end{equation}
+As we have argued above, we could directly see that $\textit{Eq}\eqref{eq:Total_43}$ holds and thus $\textit{Eq}\eqref{eq:Total_42}$ holds. So far, we have finished all the proof in regime 1 (
+selling position )
+For $\omega _2$ we shall check
+\begin{equation}
+\omega _2(x) - (\omega _1(x) + g_2(x) )\geq  0\text{ on }(0,\infty )
+\label{eq:Total_44}
+\end{equation}
+We shall respectively check the inequity above on two region: $(0, x _1^* )$ and $\left. [x _1^* , \infty \right. )$. we check
+firstly the region $\left. [x _1^* , \infty \right. )$, then $\textit{Eq}\eqref{eq:Total_44}$ is checked by
+\begin{equation}
+\left.-g_1(x) + g_2(x)\geq  0 \Longrightarrow  c_s+ c_b\geq \text{  }0 \text{ on } [x _1^* , \infty \right. )
+\label{eq:Total_45}
+\end{equation}
+Obviously, $\textit{Eq}\eqref{eq:Total_45}$ holds. Then we shall check
+\begin{equation}
+- A \psi (x) + x + c_b>0 \Longrightarrow -\frac{g_2(x)}{\psi (x)}=\frac{x+c_b}{\psi (x)}&gt; A = \frac{g_1(x _1^* )}{\psi (x _1^* )}\text{ on }(0, x _1^* )
+\label{eq:Total_46}
+\end{equation}
+Similarly, we could obtain the following by combining $\textit{Eq}\eqref{eq:Total_22}$, $\textit{Eq}\eqref{eq:Total_23}$
+$$(-\frac{g_2(x)}{\psi (x)} ) ^{\prime } (x) = \frac{C p ^{\prime } (x)}{\varphi ^2(x)} \int _0^x \Psi (s) (\beta  g_2(s) - \mathcal{L} g_2(s)  ) d
+s$$
+According to $\textit{Eq}\eqref{eq:Total_27}$, we could see that if $x_b= 0$, then $(-\frac{g_2(x)}{\psi (x)} ) ^{\prime } (x)$ is strictly decreasing on $(0, x _1^* )$
+and $\textit{Eq}\eqref{eq:Total_46}$ holds. Otherwise, there exists a local maximum point $\bar{x}\in (x_b, x _1^* )$ such that $(-\frac{g_2(x)}{\psi (x)} ) ^{\prime } (x)$
+increasing on $ (0, \bar{x} )$ and decreasing on $ (\bar{x}, x _1^* )$. As we have required in $\textit{Eq}\eqref{eq:Total_30}$, once we could prove
+that the left limit value at 0 is greater than the value at $x _1^* $, i.e.
+$$\lim _{x\to  0}  \frac{x+c_b}{\psi (x)} &gt; \frac{g_1 (x _1^* )}{\psi  (x _1^* )} =\frac{x _1^* -c_s }{\psi  (x _1^* )} \Longrightarrow c_b &gt; (x _1^* - c_s ) \frac{\lim _{x\to  0} \psi (x)}{\psi  (x _1^* )}$$
+then, $\textit{Eq}\eqref{eq:Total_46}$ holds. We finish the proof
+</blockquote>
+</dl></p>
+
+<h2 id="case-2-left-mathcal-s-2-0-x-2-right">Case 2 ($\left.\mathcal{S}_2= (0, x_2^*\right.]$)</h2>
+
+<p>Considering the following function with \(\left.\left.\mathcal{S}_1=[x_1^*,
+\infty \right. ), \mathcal{C}_1= (0, x_1^* ),
+\mathcal{S}_2= (0, x_2^*\right.], \mathcal{C}_1= (x_2^*, \infty
+ )\)
+\begin{equation}
+\omega_1=\left\{\begin{matrix}
+A\psi(x) &amp; x &lt; x_1^*\newline
+B\varphi(x)+g_1(x) &amp; x\geq x_1^*
+\end{matrix}\right.
+\label{eq:Total_47}
+\end{equation}
+\begin{equation}
+\omega_2=\left\{\begin{matrix}
+A\psi(x)+g_2(x) &amp; x\leq x_2^*\newline
+B\varphi(x) &amp; x &gt; x_2^*
+\end{matrix}\right.
+\label{eq:Total_48}
+\end{equation}
+Moreover,we identify that our optimal problem should be the case 1 if and only if our data is such that
+$x_b&gt;0 \text{ and }c_b&lt; (x_1^* - c_s )\text{  }\frac{\lim _{x\to  0} \psi (x)}{\psi (x_1^* )}$
+With the smooth-fit condition and the continuity of $\omega _1$ at $x_1^*$ and $\omega _2$ at $x_2^*$, the constants A, B and the free-boundary
+points $x_1^*, x_2^*$ could be computed by the following system
+\begin{equation}
+A \psi (x_1^* ) = B \varphi (x_1^* ) + g_1(x_1^* ) \text{ and } A \psi ^\prime (x_1^* ) = B \varphi ^\prime (x_1^* )+ g_1^{\prime }(x_1^* )
+\label{eq:Total_49}
+\end{equation}
+\begin{equation}
+A \psi (x_2^* ) + g_2(x_2^* ) = B \varphi (x_2^* ) \text{ and } A \psi ^\prime (x_2^* ) + g_2^{\prime }(x_2^* )= B \varphi ^\prime (x_2^* )
+\label{eq:Total_50}
+\end{equation}
+For convenience, we could transform the system above into
+$$A = \frac{g _2 (x _2^* ) \varphi ^\prime (x _2^* ) - g_2^{\prime }(x _2^* ) \varphi (x _2^* )}{\varphi (x _2^* )
+\psi ^\prime (x _2^* ) - \varphi ^\prime (x _2^* ) \psi (x _2^* )} = \frac{g_1^{\prime }(x _1^* ) \varphi (x _1^* )
+- g_1(x _1^* ) \varphi ^\prime (x _1^* )}{\varphi (x _1^* ) \psi ^\prime (x _1^* ) - \varphi ^\prime (x _1^* ) \psi (x _1^* )}$$
+$$ B = \frac{g_2(x_2^*) \psi ^\prime (x_2^*) - g_2^{\prime }(x_2^*) \psi (x_2^*)}{\varphi (x_2^*)
+\psi ^\prime (x_2^*) - \varphi ^\prime (x_2^*) \psi (x_2^*)} = \frac{g_1^{\prime }(x_1^*) \psi (x_1^*) -
+g_1(x_1^*) \psi ^\prime (x_1^*)}{\varphi (x_1^*) \psi ^\prime (x_1^*) - \varphi ^\prime (x_1^*) \psi (x_1^*)} $$
+Combining $\textit{Eq}\eqref{eq:Total_21}$, $\textit{Eq}\eqref{eq:Total_22}$ and $\textit{Eq}\eqref{eq:Total_23}$, we obtain
+$$ A = -\int _{x_2^*}^{\infty } \Phi (s) (\beta  g_2(s) - \mathcal{L} g_2(s) ) d s = \int _{x_1^*}^{\infty } \Phi (s) (\beta  g_1(s) - \mathcal{L} g_1(s) ) d s $$
+$$ B = -\int _0^{x_2^*} \Psi (s) (\beta  g_2(s) - \mathcal{L} g_2(s) ) d s = -\int _0^{x_1^*} \Psi (s) (\beta  g_1(s) - \mathcal{L}
+g_1(s) ) d s $$
+It follows that the free-boundary points $0&lt;x_2^*&lt;x_1^*$ satisfies the following equations
+$$q _{\varphi }(x_1^*, x_2^*) = 0 \text{ and }q _{\psi }(x_1^*, x_2^*) = 0$$
+where
+$$ q _{\varphi }(x, z) = \int _x^{\infty } \Phi (s) (\beta  g_1(s) - \mathcal{L} g_1(s) ) d s + \int _z^{\infty } \Phi (s) (\beta
+g_2(s) - \mathcal{L} g_2(s) ) d s $$
+$$ q _{\psi }(x, z) = \int _0^x \Psi (s) (\beta  g_1(s) - \mathcal{L} g_1(s) ) d s - \int _0^z \Psi (s) (\beta  g_2(s) - \mathcal{L}
+g_2(s) ) d s $$</p>
+
+<h1 id="simulation">Simulation</h1>
+
+<p>In order to simulate the SDE(Stochastic Differential Equation), we mainly use the Matlab to generate the series since <span hidden>\citet{higham2001algorithmic}&lt;\span&gt;Higham (2001) have done a very good summery and methodology. But there are also some default and we should determine which simulation approach depending on which
+process we have. In this section, we will take some examples to simulate. With the Monte Carlo approach, we are likely to make the expected values
+of the underlying asset price approximated by the computed generated average of the dataset which could be simulated by the random generator on the
+Matlab platform. Here we will take two approaches in our example which respectively are, discretized Brownian path ,Euler-Maruyama Method. And the
+Euler-Maruyama is the critical approach since</p>
+
+<p>it has more flexibility and adaptability than the discretized Brownian path
+approach which mainly use the exact solution of SDE for simulation. Besides, In
+this section, we will not try to dig in the strong or weak convergence of the EM
+method since there are a lot of nice paper widely discussing this issue. Chapter
+2 of <span hidden>\citet{iacus2009simulation}&lt;\span&gt;Iacus (2009) provides a nice overview from Euler-Maruyama
+schemes to Milstein&rsquo;s schemes and from the simulation for Ornstein-Uhlenbeck
+process to the simulation for Cox-Ingersoll-Ross process to the simulation for
+GBM. <span hidden>\citet{dereich2011euler}&lt;\span&gt;Dereich et al. (2011) have analyzed the strong approximation of the
+Cox-Ingersoll-Ross process using Lamperti transformation or chain rule (proposed
+by <span hidden>\citet{lamperti1962semi}&lt;\span&gt;)Lamperti (1962).</p>
+
+<h2 id="simulation-of-geometric-brownian-motion-gbm">Simulation of Geometric Brownian Motion(GBM)</h2>
+
+<p>We firstly simulate and suppose that the asset price X is a GBM. We thus have the SDE of X as following:
+\begin{equation}
+\text{dX}_t=\text{bX}_t\text{dt} + \text{$\sigma $X}_t\text{dW}_t, \text{ for }b,\sigma &gt;0
+\label{eq:Total_51}
+\end{equation}
+where $W_t$ is standard Wiener process. Now, we shall discuss the discretized Brownian path and Euler-Maruyama scheme, respectively.</p>
+
+<h3 id="discretized-brownian-path">Discretized Brownian path</h3>
+
+<p>In fact, we could directly compute the general formula of $\textit{Eq}\eqref{eq:Total_51}$ which is denoted by
+\begin{equation}
+X_t= X_0 + \int _0^t\text{bX}_s\text{ds}+\int _0^t\text{$\sigma $X}_s\text{dW}_s\Longrightarrow X_T=X_0e^{\text{$\mu $T}+\text{$\sigma $W}_T}
+\label{eq:Total_52}
+\end{equation}
+Considering $\delta =t-s=\frac{T}{N}$, for all $t&gt;s$ and $N$ is the time increment or the size of each single sample(path), then we could derive
+by the characterization of BM(Brownian Motion), $W_t-W_s\sim \mathcal{N}(0,t-s)\text{  }\forall t&gt;s\geq  0$. So \(X_1=X_0\exp (\mu \delta +\text{$\sigma $dW}_1)\) with $\text{dW}_1\sim \mathcal{N}(0,\delta )$ and $X_t=X_0\exp (\mu  t \delta +\sigma \sum _{j=1}^t \text{dW}_j)$
+with $\text{dW}_j\sim \mathcal{N}(0,\delta )$, $T=\text{t$\delta $}$, $t\in [0,T]$. In Matlab, we could easily generate a random number by $ \pmb{\textit{randn}} $ which follow a Normal Distribution. Let $B\sim \mathcal{N}(0,1)$ represents the random number and then we could get \( \text{dW} _i = \sqrt{\delta }B _i \) and further
+\begin{equation}
+\hat{X}_t=X_0\text{Exp}[(\mu \text{  }-\frac{1}{2} \sigma ^2)t \delta +\sigma \sum _{j=1}^t \sqrt{\delta }B_i]
+\label{eq:Total_53}
+\end{equation}
+where $\hat{X}$ means that it is a sample involving a series of random number since $B_i$ is a random value generated by machine and follow a
+Normal Distribution. We also introduce the expected value $\mathbb{E}(X_t)$ of our asset price and the sample mean $\bar{X}_t$ by
+$$ \mathbb{E}(X_t)=X_0\exp (\text{$\mu $t}+\frac{1}{2}\sigma
+^2t), \text{ for } t=0,\delta ,2\delta , \ldots , T(=\text{N$\delta $}). $$
+$$ \bar{X}_t=\frac{\hat{X}_t^1+\hat{X}_t^2+\ldots
++\hat{X}_t^{\text{num}}}{\text{number of sample}},
+\text{ for } t=0,\delta ,2\delta , \ldots , T(=\text{N$\delta $}) $$ Then we also
+compute the maximum error $ \pmb{e} $ between $\bar{X}_t$ and $\hat{X}_t$ , i.e. $\max (\left|\hat{X}_t-\bar{X}_t\right|)$, by the Matlab function $ \pmb{\textit{norm}} $ . Now, we initially set all the parameters with b = 0.15, $\sigma $=0.1, $X_0=x=1$ and T=20 as well as $ \pmb{\textit{trials}} $ which denote the number of the sample we would like to simulate. In <a href="#fig:case1_1000_001">Figure 1a</a> $\sim $<a href="#fig:case1_8000_0001">Figure 1f</a> , we show the simulation results for $d X_t = 0.15 X_t d t + 0.1 X_t\text{  }d W_t$ and each sub-figure in which we have therein 5 sample trajectories
+of $ \pmb{\textit{trials}} $ simulated sample and their simultaneous mean value. We could find that in the case where we take $\delta =0.01$ the
+increasing sample size ( $ \pmb{\textit{trials}} $ ) reduces the sample error (See left side in <a href="#fig:case1">Figure 1f</a> ) but we have not the same tendency when
+we set a smaller $\delta =0.001$ and even we have a smaller error $ \pmb{ \textit{ e}} $ (with $ \pmb{\textit{trials}} $ =4000, $\delta =0.001$) than
+$ \pmb{ \textit{ e}} $ (with $ \pmb{\textit{trials}} $ =8000, $\delta $=0.001). <span hidden>\citet{komori1994some}&lt;\span&gt;Komori et al. (1994) have discussed about this question. It is not independent
+between two scheme caused by the random generator when we have set a very small $\delta$. Therefore, we shall chose an appropriate $\delta$ for
+our simulation computation and here we will chose the simulation parameters by $ \pmb{\textit{trials}} $ =8000, $\delta$=0.01.</p>
+
+<div>
+    <a name="fig:case1"></a>
+    <tr>
+        <td>
+            <div class="figure left fig-50">
+                <a name="fig:case1_1000_001" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/case1_1000_01_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_1000_01_15.png">
+                </a>
+                <center><b>(a). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=1000, $\delta $=0.01)=0.1034</center>
+            </div>
+        </td>
+        <td>
+            <div class="figure right fig-50">
+                <a name="fig:case1_1000_0001" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/case1_1000_001_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_1000_001_15.png">
+                </a>
+                <center><b>(b). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=1000, $\delta $=0.001)=0.1257</center>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="figure left fig-50">
+                <a name="fig:case1_4000_001" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/case1_4000_01_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_4000_01_15.png">
+                </a>
+                <center><b>(c). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=4000, $\delta $=0.01)=0.0926</center>
+            </div>
+        </td>
+        <td>
+            <div class="figure right fig-50">
+                <a name="fig:case1_4000_0001" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/case1_4000_001_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_4000_001_15.png">
+                </a>
+                <center><b>(d). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=4000, $\delta $=0.001)=0.1041</center>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="figure left fig-50">
+                <a name="fig:case1_8000_001" class="fancybox" href="chenyingcai.github.io/img/Research_Figure/case1_8000_01_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_8000_01_15.png">
+                </a>
+                <center><b>(e). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.01)=0.0293</center>
+            </div>
+        </td>
+        <td>
+            <div class="figure right fig-50">
+                <a name="fig:case1_8000_0001" class="fancybox" href="chenyingcai.github.io/img/Research_Figure/case1_8000_001_15.png" data-fancybox-group="group:GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/case1_8000_001_15.png">
+                </a>
+                <center><b>(f). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.001)=0.121</center>
+            </div>
+        </td>
+    </tr>
+    <center><b>Figure 1 :</b>The simulation results of $dX _{t} = 0.15 X_t dt + 0.1 X_t dW_t$</center>
+</div>
+
+<h3 id="euler-maruyama-scheme-em">Euler-Maruyama Scheme(EM)</h3>
+
+<p>Actually, we could directly simulate the SDE instead of the analytic solution (like $\textit{Eq}\eqref{eq:Total_53}$) through Euler-Maruyama Method which takes the form
+$$X_j = X _{j-1}+f(X _{j-1}) \text{$\Delta $t}+g(X _{j-1})(W _{\tau _j}-W _{\tau _{j-1}}) , j=1,2,\ldots , \frac{T}{N}$$
+corresponding to the $\textit{Eq}\eqref{eq:Total_52}$. In our case, we takes the $f(X_t) = \mu  X_t$ and $g(X_t) = \sigma  X_t$ with $\mu , \sigma$
+are the real constants. As we have discussed above, we take the parameter by $ \pmb{\textit{trials}} $ =8000, $\delta$=0.01. Now we will simulate
+the same process above and then we will concern about the discrepancy between two simulation approach. We denote $X _{\text{target}}$ to the sample
+simulated by above approach and $X _{\text{euler}}$ to the sample simulated by Euler-Maruyama Method and the discrepancy between them noted by $ \pmb{e}\ = |X _{\text{target}}(T) - X _{\text{euler}}(T)| $. Besides, we apply EM using a step-size $\text{$\Delta $t} = R\cdot  \delta  \cdot  t$ where $R$ is a multiplier for replicating the time-step of analytic solution and a decreasing $R$ reduce $ \pmb{ \textit{ e}} $ since in this case the EM solution is strongly converged to the analytic solution with the decreasing $R$. The result is presented in <a href="#fig:case1_em_comparision">Figure 2</a>  and we get $\pmb{e} = 0.06957$ with $R=10$, $\pmb{e}= 0.01672$ with $R = 4$, $\pmb{e}= 0.001443$ with R=2 and $\pmb{e} = 0.01139$ with $R=1$. We could see that, with a decreasing $R$, the discrepancy between two simulation approach generally decreases but the discrepancy with $R=2$ is smaller than the one with $R=1$, that shall be explained by the same issue of $\delta$ we have mentioned above. So we could conclude that in this case the GBM could be strongly approximated by Euler-Maruyama.</p>
+
+<div>
+    <a name="fig:case1_em_comparision"></a>
+    <tr>
+        <td>
+            <div class="figure left fig-50">
+                <a name="fig:em_gbm_8000_01_R10" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R10.png" data-fancybox-group="group:EM_GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R10.png">
+                </a>
+                <center><b>(a). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.01)=0.06957</center>
+            </div>
+        </td>
+        <td>
+            <div class="figure right fig-50">
+                <a name="fig:em_gbm_8000_01_R4" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R4.png" data-fancybox-group="group:EM_GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R4.png">
+                </a>
+                <center><b>(b). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.01)=0.01672</center>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="figure left fig-50">
+                <a name="fig:em_gbm_8000_01_R2" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R2.png" data-fancybox-group="group:EM_GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R2.png">
+                </a>
+                <center><b>(c). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.01)=0.001443</center>
+            </div>
+        </td>
+        <td>
+            <div class="figure right fig-50">
+                <a name="fig:em_gbm_8000_01_R1" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/case1_4000_001_15.png" data-fancybox-group="group:EM_GBM">
+                    <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/em_gbm_8000_01_R1.png">
+                </a>
+                <center><b>(d). </b>$ \pmb{e} $ (with $\pmb{\textit{trials}} $=8000, $\delta $=0.01)=0.01139</center>
+            </div>
+        </td>
+    </tr>
+    <center><b>Figure 2 :</b>Strong convergence between EM and analytic solution for GBM</center>
+</div>
+
+<h3 id="value-function">Value function</h3>
+
+<p>Now, we shall discuss the optimal stopping problem regarding the underlying price which follow a GBM. We suppose a positive
+constant $\beta$ ($&gt;b$) and the value function represented in $\textit{Eq}\eqref{eq:Total_12}$ and the stopping function regarding the optimal stopping problem, represented in $\textit{Eq}\eqref{eq:Total_13}$. So that our optimal stopping problem will be the representations in $\textit{Eq}\eqref{eq:Total_16}$. Let&rsquo;s consider two $C^1$ function $\varphi , \psi$ such that
+\begin{equation}
+\varphi (x) = x^m \text{ and }\psi (x) = x^n, \text{ for }n&gt;1, m<0
+\label{eq:Total_54}
+\end{equation}
+$\varphi , \psi$ are the classical solutions of $\textit{Eq}\eqref{eq:Total_19}$. We could compute $m, n$ in $\textit{Eq}\eqref{eq:Total_54}$ and then we get
+$$m=\frac{-(b-\frac{1}{2} \sigma ^2 )-\sqrt{(b-\frac{1}{2} \sigma ^2 )^2+2 \sigma ^2\beta }}{\sigma ^2}<0$$
+and
+$$n=\frac{-(b-\frac{1}{2} \sigma ^2 )+\sqrt{(b-\frac{1}{2} \sigma ^2 )^2+2 \sigma ^2\beta }}{\sigma ^2}>1$$
+Thanks to $\textit{Eq}\eqref{eq:Total_24}$, $\textit{Eq}\eqref{eq:Total_26}$ and $\textit{Eq}\eqref{eq:Total_51}$, we could obtain $ \hat{Q}_2 = \{ x&gt;0: \frac{b x}{\beta } - x\geqslant c_b \} $ and $ \hat{Q}_2 = \emptyset $ since $\beta &gt;b$ so that $\mathcal{S}_2=\emptyset $ since $\mathcal{S}_2\subset Q_2\subset \hat{Q}_2$. Obviously, we could directly choose the framework in case 1 of section 4 to analyze this GBM and $\textit{Eq}\eqref{eq:Total_35}$ shall be</p>
+
+<p>\begin{equation}
+\begin{matrix}
+\omega_1 = \left\{\begin{matrix}
+A x^n &amp; 0 &lt; x &lt; x _1^* \newline
+x - c_s &amp; x\geq x _1^*
+\end{matrix}\right. \newline
+\omega _2 (x) = 0,\ x\in (0, \infty )
+\end{matrix}
+\label{eq:Total_55}
+\end{equation}</p>
+
+<p>By the smooth-fit principle, we have</p>
+
+<p>$$A (x _1^* )^n = x _1^* -c_s \text{ and }A n (x _1^* )^{n-1} = 1$$</p>
+
+<p>Calculate the system above, we have</p>
+
+<p>$$x _1^* = \frac{c_s n}{n-1} \text{ and } A = \frac{1}{n (x _1^* )^{n-1} } $$</p>
+
+<p>Finally, $\textit{Eq}\eqref{eq:Total_55}$ shall be</p>
+
+<p>\begin{equation}
+\begin{matrix}
+\nu _1(x) = \left\{\begin{matrix}
+\frac{x^n}{n (x _1^* )^{n-1} } &amp; 0 &lt; x &lt; x _1^* \\
+x - c_s &amp; x\geq  x _1^*
+\end{matrix}\right.\<br />
+\nu _2(x) = 0, x\in (0, \infty )
+\end{matrix}
+\label{eq:Total_56}
+\end{equation}</p>
+
+<p>Considering $b=0.15$, $\sigma =0.1$, $\beta =0.151$, $c_s=c_b=0.03$,
+$X_0=x=1$. Then, we could compute that, $m=-30.0065$, $n=1.0065$,
+$x_1^*=4.681$ and $A=0.9837$. Now, we shall simulate the value function.
+Since the $\nu _2(x)=0$, we simulate only the value function of first regime
+(selling regime) and the threshold value is $x_1^*=4.681$. Now, we choose the
+scheme simulated by exact solution as the underlying asset price and we
+simulate $ \pmb{\textit{trials}} $ = 8000 paths , set $\delta  = 0.01$ since it
+has lower discrepancy. Also, we introduce 10 initial $x$ ranged from 4 to 5
+which involve the threshold value and give us an intuitive result (See
+<a href="#tb:table1">Table 1</a> and <a href="#fig:gbm_value_funs">Figure 3</a> ). We shall give an
+explication for these results. Let&rsquo;s take $x = X_0=4.778$ as example. In
+order to simulate the value function, we shall recall the dynamic programming
+principle in $\textit{Eq}\eqref{eq:Total_15}$ and in this case, we suppose a sequences
+$\theta _i\in [0,T]$ and $ \theta _i=i\cdot \delta , i = 1, 2, \ldots , N =
+\frac{T}{\delta } $. According to $\textit{Eq}\eqref{eq:Total_56}$, we could obtain $ \nu
+_1= 4.748 $ which means that at time 0, the underlying asset price is $ x =
+4.778 $ and then we have expected value of value function equal to $ \nu _1=
+4.748 $ (See $\nu _1^{\text{Theory}}$ in <a href="#tb:table1">Table 1</a> and this
+expected value could be obtained when we sell immediately the asset. Now, we
+shall check it in the simulation process. We simulate the scheme of
+$g_1\left( X _{\theta } \right) +\nu _2 \left( X _{\theta } \right) $ and then, we
+find the $\tau _1\in \left\{ \theta _i, i= 1,2, \ldots , N\right\} $ such that
+the mean value of scheme $ g_1 \left( X _{\theta } \right) +\nu _2 \left( X _{\theta
+} \right) $ is the maxima in the sequence $[0, T]$ and the results are $ \nu
+_1= 4.7604, \tau _1= 4.9, e_1=\left| \nu _1-\nu
+_1^{\text{Theory}} \right| =0.0126 $. In fact, we obtain $\tau _1=4.9$ instead
+f $\tau _1=0$ and the simulation results tell us that we shall sell the asset
+(i.e. switch regime) at time 4.9. But we could also say that the model is valid
+since the the discrepancy is lower enough and we have $\sigma =0.1$.
+Moreover, we suppose a quite larger $\beta$ and $\beta &gt;b=0.15$ which means
+that the actualized price $\tilde{x}_t$($=e^{-\text{$\beta $t}}X_t$) will
+have a small changed as the time goes on. On the other hand, we obtain that
+$\nu _2=0.0084\simeq 0$, $\tau _2=15=T$. In fact, we could always have the
+simulated results $\tau _2=T$ even though we suppose a smaller T or a larger
+T, that is consistent with our model setting that we shall never enter the
+market if we don&rsquo;t hold the asset and $\tau _2\to  \infty$.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">$X_0$</th>
+<th align="center">$\nu_1$</th>
+<th align="center">$\tau_1$</th>
+<th align="center">$\nu _{1}^{Theory}$</th>
+<th align="center">$e_1$</th>
+<th align="center">$\nu_2$</th>
+<th align="center">$\tau_2$</th>
+<th align="center">$\nu _{2}^{Theory}$</th>
+<th align="center">$e_2$</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">4.0000</td>
+<td align="center">3.9831</td>
+<td align="center">4.9000</td>
+<td align="center">3.9704</td>
+<td align="center">0.0127</td>
+<td align="center">0.0105</td>
+<td align="center">14.9800</td>
+<td align="center">0.0000</td>
+<td align="center">0.0105</td>
+</tr>
+
+<tr>
+<td align="center">4.1111</td>
+<td align="center">4.0941</td>
+<td align="center">4.9000</td>
+<td align="center">4.0814</td>
+<td align="center">0.0127</td>
+<td align="center">0.0104</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0104</td>
+</tr>
+
+<tr>
+<td align="center">4.2222</td>
+<td align="center">4.2052</td>
+<td align="center">4.9000</td>
+<td align="center">4.1925</td>
+<td align="center">0.0127</td>
+<td align="center">0.0101</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0101</td>
+</tr>
+
+<tr>
+<td align="center">4.3333</td>
+<td align="center">4.3162</td>
+<td align="center">4.9000</td>
+<td align="center">4.3035</td>
+<td align="center">0.0127</td>
+<td align="center">0.0098</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0098</td>
+</tr>
+
+<tr>
+<td align="center">4.4444</td>
+<td align="center">4.4273</td>
+<td align="center">4.9000</td>
+<td align="center">4.4146</td>
+<td align="center">0.0127</td>
+<td align="center">0.0096</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0096</td>
+</tr>
+
+<tr>
+<td align="center">4.5556</td>
+<td align="center">4.5383</td>
+<td align="center">4.9000</td>
+<td align="center">4.5257</td>
+<td align="center">0.0126</td>
+<td align="center">0.0092</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0092</td>
+</tr>
+
+<tr>
+<td align="center">4.6667</td>
+<td align="center">4.6493</td>
+<td align="center">4.9000</td>
+<td align="center">4.6368</td>
+<td align="center">0.0125</td>
+<td align="center">0.0089</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0089</td>
+</tr>
+
+<tr>
+<td align="center">4.7778</td>
+<td align="center">4.7604</td>
+<td align="center">4.9000</td>
+<td align="center">4.7478</td>
+<td align="center">0.0126</td>
+<td align="center">0.0084</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0084</td>
+</tr>
+
+<tr>
+<td align="center">4.8889</td>
+<td align="center">4.8714</td>
+<td align="center">4.9000</td>
+<td align="center">4.8589</td>
+<td align="center">0.0125</td>
+<td align="center">0.0081</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0081</td>
+</tr>
+
+<tr>
+<td align="center">5.0000</td>
+<td align="center">4.9825</td>
+<td align="center">4.9000</td>
+<td align="center">4.9700</td>
+<td align="center">0.0125</td>
+<td align="center">0.0077</td>
+<td align="center">15.0000</td>
+<td align="center">0.0000</td>
+<td align="center">0.0077</td>
+</tr>
+</tbody>
+</table>
+
+<p><center><a name="tb:table1">Table 1</a>: Results of expected value and simulated value with different initial value $X_0$ in GBM model</center></p>
+
+<div>
+    <a name="fig:gbm_value_funs"></a>
+<tr>
+    <td>
+        <div class="figure left fig-50">
+            <a name="fig:gbm_v1" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/gbm_v1.png" data-fancybox-group="group:GBM_value">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/gbm_v1.png">
+            </a>
+            <center><b>(a). </b>Regime 1(Selling Regime): Expectation and Simulated Results of $\nu_1$</center>
+        </div>
+    </td>
+    <td>
+        <div class="figure right fig-50">
+            <a name="fig:gbm_v2" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/gbm_v2.png" data-fancybox-group="group:GBM_value">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/gbm_v2.png">
+            </a>
+            <center><b>(b). </b>Regime 2(Buying Regime): Expectation and Simulated Results of $\nu_2$ </center>
+        </div>
+    </td>
+</tr>
+<center><b>Figure 3 :</b> Expectation and simulated results of value functions in GBM model starting at different initial value $X_0$</center>
+</div>
+
+<h2 id="simulation-of-cir-process">Simulation of CIR Process</h2>
+
+<p>Suppose that the asset price is a CIR process and is given by
+\begin{equation}
+dX_t = \kappa \left( \vartheta  - X_t \right) dt + \sigma  \sqrt{X_t}dW_t
+\label{eq:Total_57}
+\end{equation}
+for some constants $\kappa , \vartheta , \sigma &gt;0$ such that $2\kappa  \vartheta  &gt; \sigma ^2$. Also, the discount factor $\beta$ is a positive
+constant.
+For simulating CIR process, it is complex to simulate the trajectory of underlying asset price by the exact solution of SDE. Therefore, we are likely
+to use the Euler Method to simulate the trajectory since it is more straightforward and we have shown that the motion simulated by the exact solution
+could be approached by the motion simulated by the Euler Method if it is strongly converged. Actually, in the simulation of CIR process through Euler
+scheme, we shall figure out the convergence problem and use the Lamperti transformation, Suppose that there are any smooth function $V$, through
+Itô formula, we could obtain
+\begin{equation}
+dV\left( X_t \right) = \left[ f\left( X_t \right) \frac{dV\left( X_t \right)}{dX_t} + \frac{1}{2} g^2\left( X_t \right) \frac{d^2V\left( X_t \right)}{dX_t^2} \right] dt + g\left( X_t \right) \frac{dV\left( X_t \right) }{dX_t} dW_t
+\label{eq:Total_58}
+\end{equation}
+Let $V(x) = \sqrt{x}$ where X satisfies the SDE in $\textit{Eq}\eqref{eq:Total_57}$ and applying the $\textit{Eq}\eqref{eq:Total_58}$ we have
+\begin{equation}
+dV_t = \left( \frac{4\kappa  \vartheta  - \sigma ^2}{8V_t} - \frac{\kappa }{2} V_t \right) dt + \frac{\sigma }{2} dW_t , t\geqslant 0, V_0 = \sqrt{X_0}
+\label{eq:Total_59}
+\end{equation}
+Considering $\kappa  = 0.06$, $\vartheta  = 1.1$, $\sigma  = 0.181$, (T =
+16), $X_0 = 1$, $\beta =0.015$ and the time step $\delta = 0.01$ and
+$ \pmb{\textit{trials}} $ = 8000 paths, we shall compare the trajectory of Euler
+scheme and the one using Lamperti transformation in
+<a href="#fig:em_em_chain_rule">Figure 4a</a> . We could see that the discrepancy between
+two trajectory is very small. Actually, we could also get the smaller enough
+discrepancy if we transform $V\left( X_t \right) $ back by $X_t = V_t^2$. The
+result is presented in <a href="#fig:tranformingback_em">Figure 4b</a> . Now, we give the
+conclusion that the Euler scheme is strongly converged since there are smaller
+enough discrepancy between Euler scheme and the one transforming back and the
+scheme SDE in $\textit{Eq}\eqref{eq:Total_59}$ has strong convergence. Therefore, we could
+apply the Euler scheme to simulate the underlying price diffusion and to study
+the optimal stopping problem. We could obtain the diffusion of
+$\textit{Eq}\eqref{eq:Total_57}$ by repeating the previous subsection and the result is
+presented in <a href="#fig:em_em_chain_rule">Figure 4a</a> .</p>
+
+<div>
+    <a name="fig:cir_em_scheme"></a>
+<tr>
+    <td>
+        <div class="figure left fig-50">
+            <a name="fig:em_em_chain_rule" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/em_em_chain_rule.png" data-fancybox-group="group:em_chain_rule">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/em_em_chain_rule.png">
+            </a>
+            <center><b>(a). </b>Comparasion of EM and EM by chain rule scheme </center>
+        </div>
+    </td>
+    <td>
+        <div class="figure right fig-50">
+            <a name="fig:tranformingback_em" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/tranformingback_em.png" data-fancybox-group="group:em_chain_rule">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/tranformingback_em.png">
+            </a>
+            <center><b>(b). </b>Comparasion of EM and EM transformed back scheme </center>
+        </div>
+    </td>
+</tr>
+<center><b>Figure 4 :</b>EM, EM by chain rule and transforming back scheme's simulation results in CIR model</center>
+</div>
+
+<h3 id="value-function-of-cir-process">Value function of CIR process</h3>
+
+<p>Let&rsquo;s consider two $C^1$ function $\varphi , \psi$ such that</p>
+
+<p>$$ \varphi (x)=U\left( \frac{\beta }{\kappa }, \frac{2 \kappa  \vartheta }{\sigma ^2}, \frac{2 \kappa }{\sigma ^2} x\right) \text{ and } \psi (x)=_1F_1 \left( \frac{\beta }{\kappa }, \frac{2 \kappa \vartheta }{\sigma ^2}, \frac{2 \kappa }{\sigma ^2} x\right) $$</p>
+
+<p>where U and $\text{}_1F_1$ are confluent hypergeometric functions. Thanks to $\textit{Eq}\eqref{eq:Total_26}$, $\textit{Eq}\eqref{eq:Total_57}$, we could obtain $ \hat{Q}_2 = \left\{ x &gt; 0 : \frac{\kappa (\vartheta - x)}{\beta } - x\geqslant c_b \right\} $ and $ \left.\hat{Q}_2 = \left( 0, \frac{\kappa \vartheta - \beta c_b}{\kappa + \beta }\right.\right] $ so that we suppose that there exists a positive constant $x_2^* &lt; \frac{\kappa  \vartheta  -\beta  c_b}{\kappa  + \beta }$ such that $\left.\mathcal{S}_2=\left( 0, x _2^* \right.\right] $ since $\mathcal{S}_2\subset Q_2\subset \hat{Q}_2$. Obviously, we could directly choose the framework in case 2 of section 4 to analyze this CIR process and $\textit{Eq}\eqref{eq:Total_47}$ and $\textit{Eq}\eqref{eq:Total_48}$ shall respectively be</p>
+
+<p>\begin{equation}
+\omega_1=\left\{\begin{matrix}
+A_1 F_1\left( \frac{\beta }{\kappa },
+\frac{2 \kappa  \vartheta }{\sigma ^2},
+\frac{2 \kappa }{\sigma ^2} x \right) &amp;  x &lt; x _1^* \newline
+B U\left( \frac{\beta }{\kappa },
+\frac{2 \kappa  \vartheta }{\sigma ^2},
+\frac{2 \kappa }{\sigma ^2} x\right) + g_1(x) &amp; x\geq x _1^*
+\end{matrix}\right.
+\label{eq:Total_60}
+\end{equation}</p>
+
+<p>\begin{equation}
+\omega_2=\left\{\begin{matrix}
+A_1 F_1 \left( \frac{\beta }{\kappa },
+\frac{2 \kappa  \vartheta }{\sigma ^2},
+\frac{2 \kappa }{\sigma ^2} x\right) + g_2(x) &amp;
+x\leq  x _2^* \newline
+B U\left( \frac{\beta }{\kappa }, \frac{2 \kappa  \vartheta }{\sigma ^2}, \frac{2 \kappa }{\sigma ^2} x\right) &amp; x &gt; x _2^*
+\end{matrix}\right.
+\label{eq:Total_61}
+\end{equation}</p>
+
+<p>Considering $\beta =0.015, \kappa =0.06, \vartheta =1.1, \sigma =0.181$, via the smooth-fit principle in $\textit{Eq}\eqref{eq:Total_49}$ and $\textit{Eq}\eqref{eq:Total_50}$, we have</p>
+
+<p>\begin{equation}
+\begin{matrix}
+A _1 F_1 \left( 0.25,4.029,3.662 x _1^* \right) = B U\left( 0.25,4.029,3.662
+x _1^* \right) + g_1 \left( x _1^* \right) \newline
+A _1 F _1^{\prime } \left( 0.25,4.029,3.662  x _1^* \right) = B U ^\prime \left( 0.25,4.029,3.662  x _1^* \right) + g_1^{\prime } \left( x _1^* \right) \newline
+A _1 F_1 \left( 0.25,4.029,3.662  x _2^* \right) + g_2 \left( x _2^* \right) = B U\left( 0.25,4.029,3.662  x _2^* \right) \newline
+A _1 F _1^{\prime } \left( 0.25,4.029,3.662  x _2^* \right) + g _2^{\prime } \left( x _2^* \right) = B U ^\prime \left( 0.25,4.029,3.662  x _2^* \right)
+\end{matrix}
+\label{eq:Total_62}
+\end{equation}</p>
+
+<p>In order to solve the above system and obtain $A, x_1^*, B, x_2^*$, we could
+use the function $ \pmb{\textit{fsolve}} $ in Matlab which could be applied in
+finding the solutions of nonlinear systems.The basic usage of
+$ \pmb{\textit{fsolve}} $ shall be like, $ \pmb{\text{$\textit{sols} $}} = \pmb{\text{$\textit{fsolve} $}} \left( \pmb{\text{$\textit{eqns} $}} , \pmb{\text{$\textit{$x_0 $} $}} \right) $ and then, Matlab will compute via an iterative
+process starting with an initial value guess $x_0$ the appropriate
+$\pmb{\text{$\textit{sols} $}} $ such that the nonlinear system
+$\pmb{\text{$\textit{eqns} \left( \textit{sols} \right) $}} $ approach to 0. In this
+case, we shall firstly define the nonlinear system in the Matlab script editor
+by</p>
+
+<p>The $\pmb{\text{$\textit{numerical_kummer} $}} $ function in line 37 above represents
+the calculation of $\text{}_1 F_1 \left( a, b, z\right) $ and is defined in script
+$ \pmb{\textit{numeriacal_kummer.m}} $ (See Appendix~\vref{app:C}). Moreover, the
+confluent hypergeometric function $U(a,b,z)$ is defined in line 36 above according to the relation</p>
+
+<p>$$ U(a,b,z) = \frac{\Gamma (1-b)}{\Gamma (a+1-b)}_1F_1(a,b,z) +
+\frac{\Gamma (b-1)}{\Gamma (a)} (z^{1-b}) \text{}_1F_1(a+1-b,
+2-b,z) $$</p>
+
+<p>By applying the initial value [1.5, 0.5, 0.001, 0.001], we could obtain
+the results $x_1^*=1.1122$, $x_2^*=0.6523$, $A=0.9858$, $B=0.4399$.
+Now, with $ \pmb{\textit{trials}} $ = 8000 paths and $\delta  = 0.01$, $T=16$,
+we shall apply the Euler scheme to simulate the underlying price diffusion and
+study the value function. Similarly, we introduce 10 initial price $x$ ranged
+from 0.5 to 1.5 and the simulated results are presented in
+<a href="#tb:table2">Table 2</a> and <a href="#fig:cir_value_funs">Figure 5</a> . We take the initial
+value, $X_0=x=0.5$, as example and suppose the sequences $ \theta _i\in
+[0,T] $ where $ \theta _i=i\cdot \delta , i = 1, 2, \ldots , N = \frac{T}{\delta
+} $. Firstly, according to $\textit{Eq}\eqref{eq:Total_60}$ and $\textit{Eq}\eqref{eq:Total_61}$, we
+could obtain the expected value of selling regime $v_1 $=1.1307 with the
+condition $x &lt; x _1^* $ and the expected value of buying regime $\nu _2 $=0.6057
+with the condition $x &lt; x _2^* $. Now we shall check it with the simulated scheme.
+We shall simulate the scheme of $ g_1 \left( X _{\theta } \right) +\nu
+_2 \left( X _{\theta } \right) $ for checking the expected value in selling regime
+and then, we find the $ \tau _1 \in \left\{ \theta _i, i = 1, 2, \ldots , N \right\} $ such that the mean value of scheme $ g_1\left( X _{\theta } \right) +\nu
+_2 \left( X _{\theta } \right) $ is the maxima in the sequence $[0, T]$ and the
+results are $ \tilde{\nu }_1 $=1.1307, $\tau _1 $=4.92, $e_1 $=$\left| \tilde{\nu
+}_1 - \nu _1^{\text{Theory}} \right| $=0.0286.
+Actually, $\tau _1 $=4.92 tell us that we shall change the regime (i.e. selling
+asset) at time $t=\tau _1 $=4.92 and obtain the maxima in the sequence $ [0,
+T] $ if you enter the market with an asset and the results prove that we shall
+stay in the regime(i.e. holds asset) according to the model if $ x &lt; x _1^* $.
+Also, we simulate the scheme of $ g_2\left( X _{\theta } \right) +\nu
+_1 \left( X _{\theta } \right) $ for checking the expected value in selling regime
+and then, we find the $ \tau _2 \in \left\{ \theta _i, i= 1,2, \ldots ,
+N\right\} $ such that the mean value of scheme $ g_2\left( X _{\theta } \right) +\nu
+_1 \left( X _{\theta } \right) $ is the maxima in the sequence $[0, T]$ and the
+results are $ \tilde{\nu }_2 $= 0.6057, $\tau _2 $= 0, $e_2 $=$\left|\tilde{\nu }_2-\nu
+_2^{\text{Theory}} \right| $=0. $\tau _2 $=0 tell us that we shall immediately
+change the regime (i.e. buying asset) if you enter the market without any asset
+and that will bring us the maxima in the sequence $[0, T]$.
+Besides, after observing <a href="#fig:cir_v1">Figure 5a</a>  and <a href="#fig:cir_v2">Figure 5b</a> ,
+we could see that the discrepancy between expected value and simulated results
+increase in the gap between the threshold value and the initial value $X_0$.
+Moreover, we could observe that the increase of stopping time $\tau _i$ leads
+to the greater discrepancy. An explication is that the posterior action ( buying
+or selling ) have error since the underlying price diffusion $X_t$ have
+temporal fluctuation.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">$X_0$</th>
+<th align="center">$\nu_1$</th>
+<th align="center">$\tau_1$</th>
+<th align="center">$\nu _{1}^{Theory}$</th>
+<th align="center">$e_1$</th>
+<th align="center">$\nu_2$</th>
+<th align="center">$\tau_2$</th>
+<th align="center">$\nu _{2}^{Theory}$</th>
+<th align="center">$e_2$</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">0.5000</td>
+<td align="center">1.1021</td>
+<td align="center">4.9200</td>
+<td align="center">1.1307</td>
+<td align="center">0.0286</td>
+<td align="center">0.6057</td>
+<td align="center">0.0000</td>
+<td align="center">0.6057</td>
+<td align="center">0.0000</td>
+</tr>
+
+<tr>
+<td align="center">0.6111</td>
+<td align="center">1.1474</td>
+<td align="center">4.9200</td>
+<td align="center">1.1750</td>
+<td align="center">0.0277</td>
+<td align="center">0.5389</td>
+<td align="center">0.0000</td>
+<td align="center">0.5389</td>
+<td align="center">0.0000</td>
+</tr>
+
+<tr>
+<td align="center">0.7222</td>
+<td align="center">1.2002</td>
+<td align="center">2.4000</td>
+<td align="center">1.2257</td>
+<td align="center">0.0255</td>
+<td align="center">0.4785</td>
+<td align="center">0.0000</td>
+<td align="center">0.4816</td>
+<td align="center">0.0031</td>
+</tr>
+
+<tr>
+<td align="center">0.8333</td>
+<td align="center">1.2630</td>
+<td align="center">1.3600</td>
+<td align="center">1.2841</td>
+<td align="center">0.0210</td>
+<td align="center">0.4258</td>
+<td align="center">0.0100</td>
+<td align="center">0.4412</td>
+<td align="center">0.0155</td>
+</tr>
+
+<tr>
+<td align="center">0.9444</td>
+<td align="center">1.3411</td>
+<td align="center">0.0500</td>
+<td align="center">1.3517</td>
+<td align="center">0.0106</td>
+<td align="center">0.3861</td>
+<td align="center">1.7000</td>
+<td align="center">0.4116</td>
+<td align="center">0.0255</td>
+</tr>
+
+<tr>
+<td align="center">1.0556</td>
+<td align="center">1.4293</td>
+<td align="center">0.0000</td>
+<td align="center">1.4307</td>
+<td align="center">0.0014</td>
+<td align="center">0.3588</td>
+<td align="center">2.0100</td>
+<td align="center">0.3887</td>
+<td align="center">0.0299</td>
+</tr>
+
+<tr>
+<td align="center">1.1667</td>
+<td align="center">1.5221</td>
+<td align="center">0.0000</td>
+<td align="center">1.5221</td>
+<td align="center">0.0000</td>
+<td align="center">0.3389</td>
+<td align="center">4.3900</td>
+<td align="center">0.3704</td>
+<td align="center">0.0315</td>
+</tr>
+
+<tr>
+<td align="center">1.2778</td>
+<td align="center">1.6181</td>
+<td align="center">0.0000</td>
+<td align="center">1.6181</td>
+<td align="center">0.0000</td>
+<td align="center">0.3230</td>
+<td align="center">5.5000</td>
+<td align="center">0.3553</td>
+<td align="center">0.0323</td>
+</tr>
+
+<tr>
+<td align="center">1.3889</td>
+<td align="center">1.7166</td>
+<td align="center">0.0000</td>
+<td align="center">1.7166</td>
+<td align="center">0.0000</td>
+<td align="center">0.3098</td>
+<td align="center">5.5000</td>
+<td align="center">0.3427</td>
+<td align="center">0.0329</td>
+</tr>
+
+<tr>
+<td align="center">1.5000</td>
+<td align="center">1.8168</td>
+<td align="center">0.0000</td>
+<td align="center">1.8168</td>
+<td align="center">0.0000</td>
+<td align="center">0.2985</td>
+<td align="center">8.5600</td>
+<td align="center">0.3318</td>
+<td align="center">0.0333</td>
+</tr>
+</tbody>
+</table>
+
+<p><center><a name="tb:table2">Table 2</a>: Results of expected value and simulated value with different initial value $X_0$ in CIR model
+</center></p>
+
+<div>
+    <a name="fig:cir_value_funs"></a>
+<tr>
+    <td>
+        <div class="figure left fig-50">
+            <a name="fig:cir_v1" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/v1_cir_model.png" data-fancybox-group="group:cir">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/v1_cir_model.png">
+            </a>
+            <center><b>(c). </b>Regime 1(Selling Regime): Expectation and Simulated Results of $\nu_1$ </center>
+        </div>
+    </td>
+    <td>
+        <div class="figure right fig-50">
+            <a name="fig:cir_v2" class="fancybox" href="https://chenyingcai.github.io/img/Research_Figure/v2_cir_model.png" data-fancybox-group="group:cir">
+            <img class="fig-img" src="https://chenyingcai.github.io/img/Research_Figure/v2_cir_model.png">
+            </a>
+            <center><b>(c). </b>Regime 2(Buying Regime): Expectation and Simulated Results of $\nu_2$ </center>
+        </div>
+    </td>
+</tr>
+<center><b>Figure 5 :</b>Expectation and simulated results of value functions in CIR model starting at different initial value $X_0$</center>
+</div>
+
+<p><bibtex src="https://chenyingcai.github.io/sample.bib"></bibtex>
+<div class="bibtex_structure">
+  <div class="sections bibtextypekey">
+      <div class="section @article" title="Refered Articles"></div>
+      <div class="section @book" title="Books"></div>
+      <div class="section @inproceedings" title="Conference and Workshop Papers"></div>
+      <div class="section @misc|@phdthesis|@mastersthesis|@bachelorsthesis|@techreport" title="Other Publications"></div>
+      <div class="templates">
+      </div>
+  </div>
+</div>
+<div id="bibtex_display"></div></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://chenyingcai.github.io/tags/computation/">Computation</a>
+
+  <a class="tag tag--primary tag--small" href="https://chenyingcai.github.io/tags/matlab/">Matlab</a>
+
+  <a class="tag tag--primary tag--small" href="https://chenyingcai.github.io/tags/gbm/">GBM</a>
+
+  <a class="tag tag--primary tag--small" href="https://chenyingcai.github.io/tags/cir/">CIR</a>
+
+  <a class="tag tag--primary tag--small" href="https://chenyingcai.github.io/tags/optimal-stopping/">Optimal stopping</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://chenyingcai.github.io/2018/05/python-code-for-buy-low-and-sell-high-strategy/" data-tooltip="Python code for Buy Low and Sell High Strategy">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://chenyingcai.github.io/2015/06/welcome-to-tranquilpeak-0.4.3-beta/" data-tooltip="Welcome to Tranquilpeak 0.4.3-BETA">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 CHEN Yingcai. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://chenyingcai.github.io/2018/05/python-code-for-buy-low-and-sell-high-strategy/" data-tooltip="Python code for Buy Low and Sell High Strategy">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://chenyingcai.github.io/2015/06/welcome-to-tranquilpeak-0.4.3-beta/" data-tooltip="Welcome to Tranquilpeak 0.4.3-BETA">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fchenyingcai.github.io%2F2018%2F04%2Fbuy-low-and-sell-high-strategy%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fchenyingcai.github.io%2F2018%2F04%2Fbuy-low-and-sell-high-strategy%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fchenyingcai.github.io%2F2018%2F04%2Fbuy-low-and-sell-high-strategy%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/e6a6a2f52f93565733e125f082bc4f91?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">CHEN Yingcai</h4>
+    
+      <div id="about-card-bio">I&rsquo;m searching a <strong>JOB</strong>! Check <a href="https://chenyingcai.github.io/resume/">My Resume</a></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Jeune diplome
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        France
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://chenyingcai.github.io/2018/05/python-code-for-buy-low-and-sell-high-strategy/">
+                <h3 class="media-heading">Python code for Buy Low and Sell High Strategy</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>This post is to replicate the post <a href="https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">Buy low and Sell high strategy</a> with the <strong>Python tool</strong> <a href="http://www.numpy.org/">Numpy</a> which is an alterative for the <a href="https://fr.mathworks.com/">Matlab</a>.</p>
+
+<p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://chenyingcai.github.io/2018/04/buy-low-and-sell-high-strategy/">
+                <h3 class="media-heading">Buy Low and Sell High Strategy</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><h7><center><strong>Supervisor: René AïD<br/>Accomplished At: University Paris Dauphine</strong></center></h7>
+It is essential to pursuit high profit for all the participants in the market. Especially
+in the stock market, amount of investors and analysts comes up with a lots of strate-
+gies and models, one of which is the Buy-low Sell-high strategies.</p>
+
+<p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://chenyingcai.github.io/2015/06/welcome-to-tranquilpeak-0.4.3-beta/">
+                <h3 class="media-heading">Welcome to Tranquilpeak 0.4.3-BETA</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2015
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Tranquilpeak is a gorgeous responsive theme for Hugo blog framework. It has many features and integrated services to improve user experience.
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         3 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://chenyingcai.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://chenyingcai.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/chenyingcai.github.io\/2018\/04\/buy-low-and-sell-high-strategy\/';
+          
+            this.page.identifier = '\/2018\/04\/buy-low-and-sell-high-strategy\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
